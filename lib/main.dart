@@ -1,11 +1,11 @@
-import 'package:ams/const/color.dart';
+import 'package:ams/common/color.dart';
 import 'package:ams/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(const ProviderScope(child: const MainApp()));
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -16,6 +16,11 @@ class MainApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        useMaterial3: true,
+        fontFamily: 'Pretendard',
+        colorSchemeSeed: primaryColor,
+      ),
+      darkTheme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Pretendard',
         colorSchemeSeed: primaryColor,
