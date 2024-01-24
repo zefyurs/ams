@@ -35,16 +35,15 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         bottomNavigationBar: BottomNavigationBar(
           selectedItemColor: brandColor,
           // unselectedItemColor: inActivateTextColor,
-          selectedLabelStyle: const TextStyle(color: Colors.black),
-          unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 10),
-          iconSize: 16,
+          // selectedLabelStyle: const TextStyle(color: Colors.black),
+          // unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 14),
+          iconSize: 18,
           type: BottomNavigationBarType.fixed,
           onTap: (int index) {
             setState(() {
               _selectedIndex = index;
             });
           },
-          showUnselectedLabels: true,
           currentIndex: _selectedIndex,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(

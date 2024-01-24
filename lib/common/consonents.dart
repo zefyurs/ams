@@ -3,3 +3,4 @@ double widgetDistanceMiddle = 18;
 double widgetDistanceLarge = 24;
 
 double horizontalPadding = 18;
+double containerInnerPadding = 16;

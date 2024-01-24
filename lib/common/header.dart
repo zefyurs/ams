@@ -35,19 +35,26 @@ class HeaderWidget extends StatelessWidget {
                 ],
               ),
               const SizedBox(width: 6),
+              //
+              //
+
               // * AMS full 로고
               Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text('Active Moment Studio',
-                    // '',
-                    // textAlign: TextAlign.center,
                     style: GoogleFonts.urbanist(
                         fontSize: 22, fontWeight: FontWeight.w400, color: textColor, letterSpacing: -1)),
                 const SizedBox(height: 11)
               ])),
-              // style: TextStyle(
-              //     fontSize: 22, fontWeight: FontWeight.w400, color: blackTextColor, letterSpacing: -1.5))),
-              IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.bars, color: textColor))
+              //
+              //
+
+              Column(
+                children: [
+                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.bars, color: textColor)),
+                  const SizedBox(height: 6)
+                ],
+              )
             ],
           ),
           // Row(
