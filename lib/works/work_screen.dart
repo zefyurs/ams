@@ -38,61 +38,98 @@ class _WorkPageState extends State<WorkPage> {
     return Scaffold(
         backgroundColor: bgColor,
         body: CustomScrollView(slivers: <Widget>[
-          buildWorkScreen(searchController, (value) => updateWorksList(value)),
+          buildWorkScreen(searchController, (value) => updateWorksList(value), context),
           buildListScreen(searchedWorkList),
         ]));
   }
 }
 
-SliverPadding buildWorkScreen(TextEditingController searchController, Function(String) onchanged) {
+SliverPadding buildWorkScreen(TextEditingController searchController, Function(String) onchanged, context) {
+  List<String> categoryName = ['화장품', '패션/의류', '자동차', '가구'];
   return SliverPadding(
     padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 0),
     sliver: SliverToBoxAdapter(
       child:
           Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: 15),
         // * banner
         workBanner(),
-        const SizedBox(height: 30),
+        const SizedBox(height: 15),
 
         // * 페이지 이름
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-          child: workTitle(),
+        Container(
+          decoration: const BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Colors.white,
+          ),
+          padding: const EdgeInsets.all(8),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, top: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('Works',
+                          // style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, letterSpacing: -1.5, color: blackTextColor),
+                          style: GoogleFonts.openSans(
+                              fontSize: 20, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.5)),
+                      // * 페이지 설명
+                      const Text('AMS의 작업물을 확인해보세요.',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey, letterSpacing: -0.5)),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 15),
+                // * 검색창
+                SizedBox(
+                    height: 45,
+                    child: TextField(
+                        controller: searchController,
+                        onChanged: onchanged,
+                        decoration: searchInputDecoration(searchController))),
+                const SizedBox(height: 15),
+
+                SizedBox(
+                    height: 30,
+                    child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: categoryName.length,
+                        itemBuilder: (context, index) {
+                          var category = categoryName[index];
+                          return Row(
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.grey.shade200,
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                                child: Text(category,
+                                    textAlign: TextAlign.center,
+                                    style: const TextStyle(
+                                        fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: -0.5)),
+                              ),
+                              const SizedBox(width: 8),
+                            ],
+                          );
+                        })),
+
+                // const SizedBox(height: 8),
+
+                // const SizedBox(height: 15),
+                // Text('브랜드 선택', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: -1.5)),
+                // const SizedBox(height: 15),
+              ],
+            ),
+          ),
         ),
-        const SizedBox(height: 15),
-
-        // * 검색창
-        SizedBox(
-            height: 50,
-            child: TextField(
-                controller: searchController,
-                onChanged: onchanged,
-                decoration: searchInputDecoration(searchController))),
-        const SizedBox(height: 30),
-
-        // * 메인화면
-        const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text('브랜드 선택', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: -1.5))),
-        const SizedBox(height: 15),
       ]),
     ),
-  );
-}
-
-Column workTitle() {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Text('Works',
-          // style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, letterSpacing: -1.5, color: blackTextColor),
-          style:
-              GoogleFonts.openSans(fontSize: 24, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.5)),
-      // * 페이지 설명
-      const Text('AMS의 작업물을 확인해보세요.',
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400, color: Colors.grey, letterSpacing: -0.5)),
-    ],
   );
 }
 
@@ -117,7 +154,7 @@ AspectRatio workBanner() {
         children: [
           const Text('AMS와 함께 하세요',
               style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 20,
                   fontFamily: 'GmarketSansTTF',
                   // fontWeight: FontWeight.w600,
                   color: Colors.white,
@@ -134,7 +171,7 @@ AspectRatio workBanner() {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(30),
-                color: Colors.white.withAlpha(80),
+                color: Colors.white.withAlpha(90),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 5),
               child: GestureDetector(
@@ -166,53 +203,60 @@ SliverPadding buildListScreen(List<WorkModel> searchedWorkList) {
       itemCount: searchedWorkList.length,
       itemBuilder: (context, index) {
         var work = searchedWorkList[index];
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: GreyEmptyBoxContainer(
-                    borderRadius: 20,
-                    widget: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: Image.asset(
-                        work.thumbnail,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
-                    shape: BoxShape.circle,
-                  ),
-                  child: IconButton(
-                    icon: Icon(Icons.play_arrow, size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
-                    onPressed: () {
-                      // 재생 버튼 클릭 시 실행할 액션 추가
-                    },
-                  ),
-                ),
-              ],
+        return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
             ),
-            const SizedBox(height: 5),
-            Padding(
+            padding: const EdgeInsets.all(10),
+            child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                // Text(work.brandName,
-                //     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: -0.5)),
-                Text('${work.brandName} ${work.title}(${work.screenDirection})',
-                    style: const TextStyle(fontSize: 16, letterSpacing: -0.5, color: textColor)),
-                Text(work.year, style: const TextStyle(fontSize: 16, color: Colors.grey, letterSpacing: -0.5)),
-              ]),
-            ),
-            const SizedBox(height: 20),
-          ],
-        );
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // * 메인화면
+
+                  Stack(
+                    alignment: Alignment.center,
+                    children: <Widget>[
+                      AspectRatio(
+                        aspectRatio: 4 / 3,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.asset(
+                            work.thumbnail,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
+                          shape: BoxShape.circle,
+                        ),
+                        child: IconButton(
+                          icon: Icon(Icons.play_arrow, size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
+                          onPressed: () {
+                            // 재생 버튼 클릭 시 실행할 액션 추가
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 5),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                      // Text(work.brandName,
+                      //     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: -0.5)),
+                      Text('${work.brandName} ${work.title}(${work.screenDirection})',
+                          style: const TextStyle(fontSize: 16, letterSpacing: -0.5, color: textColor)),
+                      Text(work.year, style: const TextStyle(fontSize: 16, color: Colors.grey, letterSpacing: -0.5)),
+                    ]),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            ));
       },
     ),
   );

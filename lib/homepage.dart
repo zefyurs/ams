@@ -21,40 +21,41 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   ];
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: bgColor,
-          body: Column(
+    return Scaffold(
+        backgroundColor: bgColor,
+        body: SafeArea(
+          child: Column(
             children: [
               const HeaderWidget(),
               // const SizedBox(height: 8),
               Expanded(child: _pages.elementAt(_selectedIndex)),
             ],
           ),
-          bottomNavigationBar: Container(
-            height: 60,
-            child: BottomNavigationBar(
-              selectedItemColor: primaryColor,
-              unselectedItemColor: inActivateTextColor,
-              selectedFontSize: 12,
-              unselectedFontSize: 12,
-              iconSize: 18,
-              type: BottomNavigationBarType.fixed,
-              onTap: (int index) {
-                setState(() {
-                  _selectedIndex = index;
-                });
-              },
-              showUnselectedLabels: true,
-              currentIndex: _selectedIndex,
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.arrowtriangle_right_square_fill), label: 'Works'),
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.bookmark), label: 'About'),
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.info), label: 'Members'),
-                BottomNavigationBarItem(icon: Icon(CupertinoIcons.at), label: 'Contact')
-              ],
-            ),
-          )),
-    );
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          selectedItemColor: brandColor,
+          // unselectedItemColor: inActivateTextColor,
+          selectedLabelStyle: const TextStyle(color: Colors.black),
+          unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 10),
+          iconSize: 16,
+          type: BottomNavigationBarType.fixed,
+          onTap: (int index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          showUnselectedLabels: true,
+          currentIndex: _selectedIndex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                activeIcon: Icon(CupertinoIcons.arrowtriangle_right_square_fill),
+                icon: Icon(CupertinoIcons.arrowtriangle_right_square),
+                label: 'Works'),
+            BottomNavigationBarItem(
+                activeIcon: Icon(CupertinoIcons.bookmark_fill), icon: Icon(CupertinoIcons.bookmark), label: 'About'),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.info), label: 'Members'),
+            BottomNavigationBarItem(icon: Icon(CupertinoIcons.at), label: 'Contact')
+          ],
+        ));
   }
 }

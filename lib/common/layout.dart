@@ -103,11 +103,22 @@ SliverPadding buildHeader(context) {
 InputDecoration searchInputDecoration(TextEditingController searchController) {
   return InputDecoration(
       contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
-      fillColor: Colors.grey.shade300.withOpacity(0.7),
+      border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.yellow)),
+      enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Colors.grey.shade400,
+          )),
+      focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Colors.grey.shade400,
+          )),
+      fillColor: Colors.white,
       filled: true,
       hintText: "브랜드를 입력해주세요",
-      hintStyle: TextStyle(fontSize: 16, color: Colors.grey.shade400),
+      hintStyle: TextStyle(fontSize: 14, color: Colors.grey.shade400),
       prefixIcon: Icon(Icons.search, size: 20, color: Colors.grey.shade600),
       suffixIcon: GestureDetector(
           onTap: () => searchController.clear(),

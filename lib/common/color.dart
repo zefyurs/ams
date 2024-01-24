@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 // * light theme
+// Color brandColor = const Color(0xff6C39AE);
+Color brandColor = Colors.red.shade900;
 const primaryColor = Colors.black;
-const bgColor = Colors.white;
+Color bgColor = Colors.grey.shade200;
 const textColor = Color(0xff171717);
 const subTextColor = Color(0xff8F959E);
 const inActivateTextColor = Color(0xFFBDBDBD);

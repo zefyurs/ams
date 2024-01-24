@@ -24,7 +24,7 @@ class HeaderWidget extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
-                      color: textColor,
+                      color: brandColor,
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: const Text('AMS',
@@ -42,7 +42,7 @@ class HeaderWidget extends StatelessWidget {
                     // '',
                     // textAlign: TextAlign.center,
                     style: GoogleFonts.urbanist(
-                        fontSize: 20, fontWeight: FontWeight.w400, color: textColor, letterSpacing: -1)),
+                        fontSize: 22, fontWeight: FontWeight.w400, color: textColor, letterSpacing: -1)),
                 const SizedBox(height: 11)
               ])),
               // style: TextStyle(
