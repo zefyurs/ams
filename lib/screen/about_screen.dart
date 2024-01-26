@@ -1,3 +1,4 @@
+import 'package:ams/common/consonents.dart';
 import 'package:ams/common/layout.dart';
 import 'package:flutter/material.dart';
 
@@ -25,14 +26,17 @@ SliverPadding buildAboutUsPage() {
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         const SizedBox(height: 20),
         // * banner
-        aboutBanner(),
+        // aboutBanner(),
         const SizedBox(height: 30),
 
         // // * 페이지 이름
         // Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0), child: aboutTitle()),
         // const SizedBox(height: 40),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
+        Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+              color: Colors.white),
+          padding: EdgeInsets.all(containerInnerPadding),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

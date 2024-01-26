@@ -1,3 +1,4 @@
+import 'package:ams/common/consonents.dart';
 import 'package:ams/common/layout.dart';
 import 'package:flutter/material.dart';
 
@@ -23,111 +24,102 @@ SliverPadding buildAboutUsPage() {
       padding: const EdgeInsets.symmetric(horizontal: 20),
       sliver: SliverToBoxAdapter(
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        const SizedBox(height: 20),
         // * banner
         aboutBanner(),
-        const SizedBox(height: 30),
+        SizedBox(height: widgetDistanceMiddle),
 
-        // // * 페이지 이름
-        // Padding(padding: const EdgeInsets.symmetric(horizontal: 8.0), child: aboutTitle()),
-        // const SizedBox(height: 40),
-        const Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('액티비티 아웃도어 전문 프로덕션', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
-              Text(
-                '영상을 통해, 더 많은 사람들이 운동을 하고\n멋진 자연을 만나 건강해지기를 바래요',
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
-          ),
-        ),
-
-        const SizedBox(height: 15),
-        const Row(
-          children: [
-            Expanded(
-              child: SizedBox(
-                height: 91,
-                child: GreyEmptyBoxContainer(
-                    widget: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '1.1M+',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '릴스 평균 조회수',
-                          style: TextStyle(color: subTextColor, fontSize: 14),
-                        )
-                      ],
-                    ),
-                    borderRadius: 10),
-              ),
-            ),
-            SizedBox(width: 15),
-            Expanded(
-              child: SizedBox(
-                height: 91,
-                child: GreyEmptyBoxContainer(
-                    widget: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '600+',
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
-                        ),
-                        Text(
-                          '릴스 좋아요',
-                          style: TextStyle(color: subTextColor, fontSize: 14),
-                        )
-                      ],
-                    ),
-                    borderRadius: 10),
-              ),
-            )
-          ],
-        ),
-        const SizedBox(height: 15),
-        const Row(
-          children: [
-            Expanded(
-              child: GreyEmptyBoxContainer(
-                  borderRadius: 10,
-                  widget: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        WhiteRoundedContainer(
+          topLeft: const Radius.circular(15),
+          topRight: const Radius.circular(15),
+          bottomLeft: const Radius.circular(15),
+          bottomRight: const Radius.circular(15),
+          widget: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 16),
+                      const Text('액티비티 아웃도어 전문 프로덕션', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
                       Text(
-                        '100+',
-                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600),
+                        '영상을 통해, 더 많은 사람들이 운동을 하고\n멋진 자연을 만나 건강해지기를 바래요',
+                        style: TextStyle(color: darkGrey),
                       ),
-                      Text(
-                        '전 대기업 9년차 경력\n다수의 바랜드 광고 집행\n현대차 앰버서더(Ambassador) 활동\nSSG 앰버서더(Ambassador) 활동\n고프로 크리에이터 최우수상\n영상 제작 100편 이상 진행\n영상 공모전 수상 9회',
-                        style: TextStyle(color: subTextColor, fontSize: 14),
-                      ),
-                      SizedBox(height: 16),
                     ],
-                  )),
+                  ),
+                ),
+                SizedBox(height: widgetDistanceLarge),
+                Row(children: [
+                  const Expanded(
+                    child: SmallTextWidgetWighBg(title: '1.1M+', contents: '릴스 평균 조회수', width: 120),
+                  ),
+                  SizedBox(width: widgetDistanceSmall),
+                  const Expanded(
+                    child: SmallTextWidgetWighBg(title: '600+', contents: '릴스 좋아요', width: 120),
+                  ),
+                ]),
+                SizedBox(height: widgetDistanceSmall),
+                const Center(
+                  child: SmallTextWidgetWighBg(
+                      title: '100+',
+                      contents:
+                          '전 대기업 9년차 경력\n다수의 바랜드 광고 집행\n현대차 앰버서더(Ambassador) 활동\nSSG 앰버서더(Ambassador) 활동\n고프로 크리에이터 최우수상\n영상 제작 100편 이상 진행\n영상 공모전 수상 9회',
+                      width: 230),
+                ),
+              ],
             ),
           ],
         ),
-        const SizedBox(height: 30),
-        Container(
-          width: double.infinity * 0.8,
-          height: 50,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: textColor),
-          child: const Text(
-            '인스타그램으로',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w400, letterSpacing: -1.5, color: Colors.white),
-          ),
+
+        SizedBox(height: widgetDistanceMiddle),
+
+        // * 함께한 브랜드 소개
+        WhiteRoundedContainer(
+          topLeft: const Radius.circular(15),
+          topRight: const Radius.circular(15),
+          bottomLeft: const Radius.circular(15),
+          bottomRight: const Radius.circular(15),
+          widget: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text('AMS와 함께', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+                      Text(
+                        'AMS와 함께 한 Brand를 소개합니다.',
+                        style: TextStyle(color: darkGrey),
+                      ),
+                      SizedBox(height: widgetDistanceLarge),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        child: Image.asset('assets/images/brandList.png'),
+                      )
+                    ],
+                  ),
+                ),
+                SizedBox(height: widgetDistanceLarge),
+                Container(
+                  height: 50,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: primaryColor),
+                  child: const Text(
+                    '인스타그램으로',
+                    textAlign: TextAlign.center,
+                    style:
+                        TextStyle(fontSize: 18, fontWeight: FontWeight.w500, letterSpacing: -1.0, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
-        const SizedBox(height: 30),
+        SizedBox(height: widgetDistanceLarge),
       ])));
 }
 

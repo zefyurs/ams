@@ -1,9 +1,7 @@
 import 'package:ams/common/color.dart';
 import 'package:ams/common/consonents.dart';
-import 'package:ams/common/menu.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class GreyEmptyBoxContainer extends StatelessWidget {
   final Widget widget;
@@ -16,7 +14,7 @@ class GreyEmptyBoxContainer extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
           border: Border.all(
-            color: Colors.grey.withOpacity(0.4),
+            color: lightGrey,
             width: 1,
           ),
         ),
@@ -24,80 +22,72 @@ class GreyEmptyBoxContainer extends StatelessWidget {
   }
 }
 
-SliverPadding buildHeader(context) {
-  return SliverPadding(
-    padding: EdgeInsets.symmetric(horizontal: horizontalPadding, vertical: 10),
-    sliver: SliverToBoxAdapter(
-      child: Column(
-        children: [
-          Row(
-            children: [
-              // * AMS 로고
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: Colors.black,
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
-                    child: const Text('AMS',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w400, color: Colors.white, letterSpacing: -0.5)),
-                  ),
-                  const Text('IAMSUPER', style: TextStyle(fontSize: 8, height: 1))
-                ],
-              ),
-              const SizedBox(width: 6),
-              // * AMS full 로고
-              const Expanded(
-                  child: Text('Active Moment Studio',
-                      style:
-                          TextStyle(fontSize: 22, fontWeight: FontWeight.w400, color: textColor, letterSpacing: -2.0))),
-              IconButton(
-                  onPressed: () async {
-                    await showGeneralDialog(
-                        context: context,
-                        barrierDismissible: true,
-                        barrierLabel: MaterialLocalizations.of(context).modalBarrierDismissLabel,
-                        barrierColor: Colors.transparent,
-                        transitionDuration: const Duration(milliseconds: 200),
-                        pageBuilder: (BuildContext buildContext, Animation animation, Animation secondaryAnimation) {
-                          return const MenuScreen();
-                          // return const SizedBox();
-                        });
-                  },
-                  icon: const Icon(CupertinoIcons.search, color: textColor))
-            ],
+class SmallTextWidgetWighBg extends StatelessWidget {
+  final String title;
+  final String contents;
+  final double width;
+  const SmallTextWidgetWighBg({super.key, required this.title, required this.contents, required this.width});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        SizedBox(height: widgetDistanceMiddle),
+        Container(
+          width: width,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: primaryColor.withAlpha(40)),
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          child: Text(
+            title,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, color: primaryColor),
           ),
-          SizedBox(height: widgetDistanceLarge),
-          Row(
-            children: [
-              Text(
-                'Works',
-                // style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700, letterSpacing: -1.5, color: blackTextColor),
-                style: GoogleFonts.philosopher(
-                    fontSize: 22, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.5),
-              ),
-              const SizedBox(width: 24),
-              Text(
-                'About us',
-                style: TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w500, color: Colors.grey.shade400, letterSpacing: -1.5),
-              ),
-              const SizedBox(width: 24),
-              Text(
-                'Contact',
-                style: TextStyle(
-                    fontSize: 24, fontWeight: FontWeight.w500, color: Colors.grey.shade400, letterSpacing: -1.5),
+        ),
+        Text(
+          contents,
+          style: TextStyle(color: darkGrey, fontSize: 14),
+        ),
+        SizedBox(height: widgetDistanceMiddle),
+      ],
+    );
+  }
+}
+
+class WhiteRoundedContainer extends StatelessWidget {
+  final Radius topLeft;
+  final Radius topRight;
+  final Radius bottomLeft;
+  final Radius bottomRight;
+
+  final List<Widget> widget;
+  const WhiteRoundedContainer(
+      {super.key,
+      required this.widget,
+      required this.topLeft,
+      required this.topRight,
+      required this.bottomLeft,
+      required this.bottomRight});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.2),
+                // color: primaryColor.withOpacity(0.1),
+                spreadRadius: 0,
+                blurRadius: 10,
+                offset: const Offset(0, 4), // changes position of shadow
               ),
             ],
-          ),
-        ],
-      ),
-    ),
-  );
+            borderRadius: BorderRadius.only(
+                topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, bottomRight: bottomRight),
+            color: Colors.white),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 29),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: widget));
+  }
 }
 
 InputDecoration searchInputDecoration(TextEditingController searchController) {

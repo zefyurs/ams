@@ -1,6 +1,7 @@
 // sk2
 class WorkModel {
   int idNumber;
+  String category;
   String brandName;
   String title;
   String thumbnail;
@@ -11,6 +12,7 @@ class WorkModel {
 
   WorkModel({
     required this.idNumber,
+    required this.category,
     required this.brandName,
     required this.title,
     required this.thumbnail,
@@ -25,6 +27,7 @@ class WorkModel {
 List<WorkModel> workList = [
   WorkModel(
     idNumber: 202402,
+    category: '패션/의류',
     brandName: 'EIDER',
     title: '아이더 F/W 눈꽃 산행',
     thumbnail: 'assets/images/eider_202402.png',
@@ -35,6 +38,7 @@ List<WorkModel> workList = [
   ),
   WorkModel(
     idNumber: 202401,
+    category: '화장품',
     brandName: 'SK-II',
     title: '에스케이투 화장품광고',
     thumbnail: 'assets/images/sk2_202401.png',
@@ -46,6 +50,7 @@ List<WorkModel> workList = [
   WorkModel(
     idNumber: 202312,
     brandName: 'ANDAR',
+    category: '패션/의류',
     title: '홍콩관광청 x ANDAR 요가',
     thumbnail: 'assets/images/hongkong_202303.png',
     url: 'https://www.youtube.com/watch?v=7Qoq75-DQm4',
@@ -55,6 +60,7 @@ List<WorkModel> workList = [
   ),
   WorkModel(
     idNumber: 202311,
+    category: '패션/의류',
     brandName: '룰루레몬',
     title: '쇼핑편',
     thumbnail: 'assets/images/lululemon_202302.png',

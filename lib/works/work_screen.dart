@@ -22,6 +22,7 @@ class _WorkPageState extends State<WorkPage> {
       searchWord = newSearchWord;
       searchedWorkList = workList
           .where((element) =>
+              element.category.contains(searchWord) ||
               element.brandName.contains(searchWord) ||
               element.title.contains(searchWord) ||
               element.year.contains(searchWord) ||
@@ -34,18 +35,46 @@ class _WorkPageState extends State<WorkPage> {
 
   @override
   Widget build(BuildContext context) {
+    List<String> categoryName = workList.map((e) => e.category).toSet().toList();
+
     return Scaffold(
         backgroundColor: bgColor,
-        body: CustomScrollView(slivers: <Widget>[
-          buildBannerAndListTitleWidget(searchController, (value) => updateWorksList(value), context),
-          buildListView(searchedWorkList),
-        ]));
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: containerInnerPadding),
+          child: Column(children: [
+            const WorkBanner(),
+            SizedBox(height: widgetDistanceMiddle),
+            Expanded(
+                child: WhiteRoundedContainer(
+                    topLeft: const Radius.circular(20),
+                    topRight: const Radius.circular(20),
+                    bottomLeft: const Radius.circular(20),
+                    bottomRight: const Radius.circular(20),
+                    widget: [
+                  Column(children: [
+                    CustomScrollView(slivers: <Widget>[
+                      buildBannerAndListTitleWidget(
+                        searchWord: searchWord,
+                        searchController: searchController,
+                        onTap: (value) => updateWorksList(value),
+                        context: context,
+                        categoryName: categoryName,
+                      ),
+                      buildListView(searchedWorkList),
+                    ]),
+                  ]),
+                ])),
+          ]),
+        ));
   }
 }
 
 SliverPadding buildBannerAndListTitleWidget(
-    TextEditingController searchController, Function(String) onchanged, context) {
-  List<String> categoryName = ['화장품', '패션/의류', '자동차', '가구'];
+    {required TextEditingController searchController,
+    required Function(String) onTap,
+    required String searchWord,
+    required context,
+    required List<String> categoryName}) {
   return SliverPadding(
     padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding, top: 10),
     sliver: SliverToBoxAdapter(
@@ -54,90 +83,113 @@ SliverPadding buildBannerAndListTitleWidget(
         //
         //
         // * banner
-        const WorkBanner(),
         SizedBox(height: widgetDistanceMiddle),
 
         //
         //
         // * 소개 및 검색창
-        Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
-              color: Colors.white),
-          padding: EdgeInsets.all(containerInnerPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // 타이틀 정렬을 위한 padding 추가
-              Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //
-                    // * 페이지 제목
+        WhiteRoundedContainer(
+          topLeft: const Radius.circular(20),
+          topRight: const Radius.circular(20),
+          bottomLeft: const Radius.circular(0),
+          bottomRight: const Radius.circular(0),
+          widget: [
+            // 타이틀 정렬을 위한 padding 추가
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  //
+                  // * 페이지 제목
 
-                    Text('Works',
-                        style: GoogleFonts.openSans(
-                            fontSize: 22, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.5)),
+                  Text('Works',
+                      style: GoogleFonts.openSans(
+                          fontSize: 22, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.5)),
 
-                    // * 페이지 설명
-                    const Text('AMS의 작업물을 확인해보세요.',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey, letterSpacing: -0.5)),
-                  ],
-                ),
+                  // * 페이지 설명
+                  const Text('AMS의 작업물을 확인해보세요.',
+                      style: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey, letterSpacing: -0.5)),
+                ],
               ),
-              SizedBox(height: widgetDistanceSmall),
+            ),
+            SizedBox(height: widgetDistanceSmall),
 
-              // * 검색창
-              SizedBox(
-                  height: 45,
-                  child: TextField(
-                      controller: searchController,
-                      onChanged: onchanged,
-                      decoration: searchInputDecoration(searchController))),
-              SizedBox(height: widgetDistanceSmall),
+            // * 검색창
+            SizedBox(
+                height: 45,
+                child: TextField(
+                    controller: searchController,
+                    onChanged: onTap,
+                    decoration: searchInputDecoration(searchController))),
+            SizedBox(height: widgetDistanceSmall),
 
-              // * 카테고리 선택
-              SizedBox(
-                  height: 30,
-                  child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: categoryName.length,
-                      itemBuilder: (context, index) {
-                        var category = categoryName[index];
-                        return Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.grey.shade300,
-                              ),
-                              padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
-                              child: Text(category,
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, letterSpacing: -0.5)),
+            // * 카테고리 선택
+            SizedBox(
+                height: 32,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                        onTap: () => onTap(''),
+                        child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15),
+                              color: searchWord == '' ? Colors.black : Colors.grey.shade300,
                             ),
-                            SizedBox(width: widgetDistanceSmall),
-                          ],
-                        );
-                      })),
-            ],
-          ),
+                            padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
+                            child: Text(
+                              '전체',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: searchWord == '' ? Colors.white : Colors.black,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: -0.5,
+                              ),
+                            ))),
+                    Expanded(
+                      child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: categoryName.length,
+                          itemBuilder: (context, index) {
+                            var category = categoryName[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(left: 8),
+                              child: GestureDetector(
+                                  onTap: () => onTap(category),
+                                  child: Container(
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(15),
+                                          color: searchWord == category ? Colors.black : Colors.grey.shade300),
+                                      padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
+                                      child: Text(
+                                        category,
+                                        textAlign: TextAlign.center,
+                                        style: TextStyle(
+                                          color: searchWord == category ? Colors.white : Colors.black,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w400,
+                                          letterSpacing: -0.5,
+                                        ),
+                                      ))),
+                            );
+                          }),
+                    ),
+                  ],
+                )),
+          ],
         ),
       ]),
     ),
   );
 }
 
-SliverPadding buildListView(List<WorkModel> searchedWorkList) {
-  return SliverPadding(
-    padding: EdgeInsets.only(left: horizontalPadding, right: horizontalPadding),
-    sliver: SliverList.builder(
-      itemCount: searchedWorkList.length,
-      itemBuilder: (context, index) {
+SliverList buildListView(List<WorkModel> searchedWorkList) {
+  return SliverList(
+    delegate: SliverChildBuilderDelegate(
+      childCount: searchedWorkList.length,
+      (context, index) {
         var work = searchedWorkList[index];
         return Container(
             decoration: const BoxDecoration(

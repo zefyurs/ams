@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-          selectedItemColor: brandColor,
+          selectedItemColor: primaryColor,
           // unselectedItemColor: inActivateTextColor,
           // selectedLabelStyle: const TextStyle(color: Colors.black),
           // unselectedLabelStyle: const TextStyle(color: Colors.black, fontSize: 14),

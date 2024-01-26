@@ -24,7 +24,7 @@ class HeaderWidget extends StatelessWidget {
                   Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(3),
-                      color: brandColor,
+                      color: primaryColor,
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: 5),
                     child: const Text('AMS',
