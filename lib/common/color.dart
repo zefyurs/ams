@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 // * Color theme 1
 
-Color primaryColor = const Color(0xff1db954);
+// Color primaryColor = const Color(0xff1db954);
+Color primaryColor = const Color(0xff171717);
 Color secondaryColor = const Color(0xffbc9464);
 Color thirdColor = const Color(0xff3d32b3);
 
@@ -19,6 +20,7 @@ const inActivateTextColor = Color(0xFFBDBDBD);
 Color lightGrey = const Color(0xffd9d9d9);
 Color middleGrey = const Color(0xff999999);
 Color darkGrey = const Color(0xff767676);
+Color boldGrey = const Color(0xff555555);
 
 // * dark theme
 const darkmodeBgColor = Color(0xFF1E1E1E);

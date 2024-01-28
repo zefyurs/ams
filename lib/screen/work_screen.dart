@@ -2,8 +2,11 @@ import 'package:ams/common/color.dart';
 import 'package:ams/common/consonents.dart';
 import 'package:ams/common/layout.dart';
 import 'package:ams/model/work_model.dart';
+import 'package:ams/screen/popup_screen.dart';
 import 'package:ams/widget/work_banner.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WorkPage extends StatefulWidget {
@@ -53,7 +56,9 @@ class _WorkPageState extends State<WorkPage> {
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                     //
                     // * 페이지 제목
-
+                    Text('Works',
+                        style: GoogleFonts.openSans(
+                            fontSize: 22, fontWeight: FontWeight.w600, color: textColor, letterSpacing: -1.0)),
                     // * 페이지 설명
                     const Text('AMS의 작업물을 확인해보세요.',
                         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Colors.grey))
@@ -79,7 +84,7 @@ class _WorkPageState extends State<WorkPage> {
                           child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
-                                color: searchWord == '' ? primaryColor : Colors.grey.shade300,
+                                color: searchWord == '' ? primaryColor : Colors.grey.shade200,
                               ),
                               padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
                               child: Text(
@@ -105,7 +110,7 @@ class _WorkPageState extends State<WorkPage> {
                                         child: Container(
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(15),
-                                                color: searchWord == category ? primaryColor : Colors.grey.shade300),
+                                                color: searchWord == category ? primaryColor : Colors.grey.shade200),
                                             padding:
                                                 EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
                                             child: Text(
@@ -117,64 +122,134 @@ class _WorkPageState extends State<WorkPage> {
                     ],
                   )),
               SizedBox(height: widgetDistanceSmall),
-              ListView.builder(
+              GridView.builder(
                   shrinkWrap: true,
                   primary: false,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 1,
+                    mainAxisSpacing: 1,
+                  ),
                   itemCount: searchedWorkList.length,
                   itemBuilder: (context, index) {
                     var work = searchedWorkList[index];
-                    return Container(
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            // * 메인화면
+                    return GestureDetector(
+                        onTap: () {
+                          Get.to(() => PopupScreen(work: work));
+                        },
+                        child: Image.asset(work.thumbnail[0], fit: BoxFit.cover));
+                  }),
+              SizedBox(height: widgetDistanceLarge),
 
-                            Stack(
-                              alignment: Alignment.center,
-                              children: <Widget>[
-                                AspectRatio(
-                                    aspectRatio: 4 / 3,
-                                    child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(20),
-                                        child: Image.asset(
-                                          work.thumbnail,
-                                          fit: BoxFit.cover,
-                                        ))),
-                                // Container(
-                                //   decoration: BoxDecoration(
-                                //     color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
-                                //     shape: BoxShape.circle,
-                                //   ),
-                                //   child: IconButton(
-                                //     icon: Icon(Icons.play_arrow,
-                                //         size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
-                                //     onPressed: () {
-                                //       // 재생 버튼 클릭 시 실행할 액션 추가
-                                //     },
-                                //   ),
-                                // ),
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                                // Text(work.brandName,
-                                //     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: -0.5)),
-                                Text('${work.brandName} ${work.title}(${work.screenDirection})',
-                                    style: const TextStyle(fontSize: 16, letterSpacing: -0.5, color: textColor)),
-                                Text(work.year,
-                                    style: const TextStyle(fontSize: 16, color: Colors.grey, letterSpacing: -0.5)),
-                              ]),
-                            ),
-                            SizedBox(height: widgetDistanceSmall)
-                          ],
-                        ));
-                  })
+              // ListView.builder(
+              //     shrinkWrap: true,
+              //     primary: false,
+              //     itemCount: searchedWorkList.length,
+              //     itemBuilder: (context, index) {
+              //       var work = searchedWorkList[index];
+              //       return Container(
+              //           decoration: const BoxDecoration(
+              //             color: Colors.white,
+              //           ),
+              //           child: Column(
+              //             crossAxisAlignment: CrossAxisAlignment.start,
+              //             children: [
+              //               // * 메인 list view
+              //               // * 썸네일
+              //               Stack(
+              //                 alignment: Alignment.center,
+              //                 children: <Widget>[
+              //                   AspectRatio(
+              //                       aspectRatio: 4 / 3,
+              //                       child: Image.asset(
+              //                         work.thumbnail,
+              //                         fit: BoxFit.cover,
+              //                       )),
+              //                   Container(
+              //                     decoration: BoxDecoration(
+              //                       color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
+              //                       shape: BoxShape.circle,
+              //                     ),
+              //                     child: IconButton(
+              //                       icon: Icon(Icons.play_arrow,
+              //                           size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
+              //                       onPressed: () {
+              //                         // 재생 버튼 클릭 시 실행할 액션 추가
+              //                       },
+              //                     ),
+              //                   ),
+              //                 ],
+              //               ),
+              //               SizedBox(height: widgetDistanceMiddle),
+              //               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              //                 // * title
+              //                 Row(
+              //                   children: [
+              //                     Expanded(
+              //                       child: Text(work.title,
+              //                           //     style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700, letterSpacing: -0.5)),
+              //                           style: const TextStyle(
+              //                               fontSize: 18,
+              //                               letterSpacing: -0.5,
+              //                               color: textColor,
+              //                               fontWeight: FontWeight.w600)),
+              //                     ),
+              //                     Text(
+              //                       work.screenDirection,
+              //                       style: TextStyle(color: middleGrey),
+              //                     )
+              //                   ],
+              //                 ),
+              //                 SizedBox(height: widgetDistanceSmall),
+              //                 // * 설명
+              //                 Text(
+              //                   work.description,
+              //                   style: TextStyle(color: darkGrey),
+              //                   // maxLines: 5,
+              //                   // overflow: TextOverflow.ellipsis,
+              //                 ),
+              //                 SizedBox(height: widgetDistanceLarge),
+              //                 SizedBox(height: widgetDistanceLarge),
+
+              //                 // if (work.description.length > 100)
+              //                 //   Row(
+              //                 //     children: [
+              //                 //       const Expanded(child: SizedBox.shrink()),
+              //                 //       TextButton(
+              //                 //         onPressed: () {},
+              //                 //         child: const Text('더보기 >', textAlign: TextAlign.end),
+              //                 //       ),
+              //                 //     ],
+              //                 //   ),
+              //                 SizedBox(height: widgetDistanceSmall),
+              //                 Text(work.tag,
+              //                     style: TextStyle(
+              //                       color: middleGrey,
+              //                       letterSpacing: -0.5,
+              //                     )),
+              //                 // Row(
+              //                 //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //                 //   children: [
+              //                 //     Text(work.screenDirection, style: TextStyle(color: middleGrey, letterSpacing: -0.5)),
+              //                 //     Text(work.year, style: TextStyle(color: middleGrey, letterSpacing: -0.5)),
+              //                 //   ],
+              //                 // ),
+              //               ]),
+              //               SizedBox(height: widgetDistanceSmall),
+
+              //               Divider(
+              //                 height: 1,
+              //                 thickness: 1,
+              //                 color: lightGrey,
+              //               ),
+              //               SizedBox(height: widgetDistanceLarge),
+              //               SizedBox(height: widgetDistanceLarge),
+              //               SizedBox(height: widgetDistanceLarge)
+              //             ],
+              //           ));
+              //     })
             ]),
-            SizedBox(height: widgetDistanceMiddle),
+            SizedBox(height: widgetDistanceLarge),
           ]),
         ));
   }

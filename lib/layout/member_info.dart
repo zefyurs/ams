@@ -24,8 +24,8 @@ class MemberInfoTemplate extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       ClipRRect(
           borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(8),
-              topRight: Radius.circular(8),
+              topLeft: Radius.circular(0),
+              topRight: Radius.circular(0),
               bottomLeft: Radius.circular(0),
               bottomRight: Radius.circular(0)),
           child: Image.asset(imgUrl)),
