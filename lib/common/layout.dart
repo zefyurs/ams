@@ -33,7 +33,6 @@ class SmallTextWidgetWighBg extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: widgetDistanceMiddle),
         Container(
           width: width,
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), color: primaryColor.withAlpha(40)),
@@ -55,37 +54,24 @@ class SmallTextWidgetWighBg extends StatelessWidget {
 }
 
 class WhiteRoundedContainer extends StatelessWidget {
-  final Radius topLeft;
-  final Radius topRight;
-  final Radius bottomLeft;
-  final Radius bottomRight;
-
   final List<Widget> widget;
-  const WhiteRoundedContainer(
-      {super.key,
-      required this.widget,
-      required this.topLeft,
-      required this.topRight,
-      required this.bottomLeft,
-      required this.bottomRight});
+  final EdgeInsetsGeometry padding;
+  const WhiteRoundedContainer({super.key, required this.widget, required this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.2),
-                // color: primaryColor.withOpacity(0.1),
-                spreadRadius: 0,
-                blurRadius: 10,
-                offset: const Offset(0, 4), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.only(
-                topLeft: topLeft, topRight: topRight, bottomLeft: bottomLeft, bottomRight: bottomRight),
-            color: Colors.white),
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 29),
+        margin: EdgeInsets.symmetric(horizontal: containerHorizontalMargin),
+        decoration: BoxDecoration(boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            // color: primaryColor.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: const Offset(0, 4), // changes position of shadow
+          ),
+        ], borderRadius: const BorderRadius.all(Radius.circular(20)), color: Colors.white),
+        padding: padding,
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: widget));
   }
 }

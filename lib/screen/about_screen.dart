@@ -40,7 +40,7 @@ SliverPadding buildAboutUsPage() {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('액티비티 아웃도어 전문 프로덕션', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
+              Text('아웃도어/액티비티\n영상마케팅 전문', style: TextStyle(fontSize: 24, fontWeight: FontWeight.w700)),
               Text(
                 '영상을 통해, 더 많은 사람들이 운동을 하고\n멋진 자연을 만나 건강해지기를 바래요',
                 style: TextStyle(color: Colors.grey),

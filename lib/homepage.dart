@@ -1,7 +1,9 @@
 import 'package:ams/about/about_screen.dart';
 import 'package:ams/common/color.dart';
 import 'package:ams/common/header.dart';
-import 'package:ams/works/work_screen.dart';
+import 'package:ams/screen/contact_screen.dart';
+import 'package:ams/screen/member_screen.dart';
+import 'package:ams/screen/work_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -18,6 +20,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   final List<Widget> _pages = [
     const WorkPage(),
     const AboutPage(),
+    const MemberPage(),
+    const ContactPage(),
   ];
   @override
   Widget build(BuildContext context) {
