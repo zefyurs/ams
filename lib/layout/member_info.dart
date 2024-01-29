@@ -33,27 +33,36 @@ class MemberInfoTemplate extends StatelessWidget {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-          ),
-          Text(
-            job,
-            style: TextStyle(color: middleGrey),
-          ),
+          // * title
+          Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+
+          // * 직책
+          Text(job, style: TextStyle(color: middleGrey)),
+          SizedBox(height: widgetDistanceLarge),
+
+          // * 설명
+          Text(description, style: TextStyle(color: boldGrey)),
           SizedBox(height: widgetDistanceSmall),
-          Text(description, style: TextStyle(color: darkGrey)),
-          Text(
-            sns,
-            style: TextStyle(color: primaryColor),
+          // SizedBox(height: widgetDistanceSmall),
+
+          // * sns
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(borderRadius: BorderRadius.circular(15), color: lightGrey.withOpacity(0.8)),
+            child: Text(
+              sns,
+              style: TextStyle(color: primaryColor),
+            ),
           ),
         ],
       ),
-      SizedBox(height: widgetDistanceLarge),
-      if (!isLast)
+      SizedBox(height: widgetDistanceLarge * 2),
+
+      // Divider(color: lightGrey, thickness: 1),
+      if (isLast)
         Column(
           children: [
-            Divider(color: lightGrey, thickness: 1),
+            // Divider(color: lightGrey, thickness: 1),
             SizedBox(height: widgetDistanceLarge),
           ],
         ),

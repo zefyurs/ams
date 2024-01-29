@@ -4,9 +4,9 @@ import 'package:ams/common/layout.dart';
 import 'package:ams/model/work_model.dart';
 import 'package:ams/screen/popup_screen.dart';
 import 'package:ams/widget/work_banner.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WorkPage extends StatefulWidget {
@@ -18,7 +18,14 @@ class WorkPage extends StatefulWidget {
 
 class _WorkPageState extends State<WorkPage> {
   String searchWord = '';
-  List<WorkModel> searchedWorkList = List.from(workList);
+  List<WorkModel> searchedWorkList = [];
+
+  Future<void> fetchData() async {
+    List<WorkModel> initialWorkList = await List.from(workList);
+    setState(() {
+      searchedWorkList = initialWorkList;
+    });
+  }
 
   void updateWorksList(String newSearchWord) {
     setState(() {
@@ -28,14 +35,18 @@ class _WorkPageState extends State<WorkPage> {
               element.category.contains(searchWord) ||
               element.brandName.contains(searchWord) ||
               element.title.contains(searchWord) ||
-              element.year.contains(searchWord) ||
               element.screenDirection.contains(searchWord))
           .toList();
     });
   }
 
-  TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
 
+  TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     List<String> categoryName = workList.map((e) => e.category).toSet().toList();
@@ -135,9 +146,28 @@ class _WorkPageState extends State<WorkPage> {
                     var work = searchedWorkList[index];
                     return GestureDetector(
                         onTap: () {
-                          Get.to(() => PopupScreen(work: work));
+                          Get.to(
+                            PopupScreen(work: work),
+                          );
                         },
-                        child: Image.asset(work.thumbnail[0], fit: BoxFit.cover));
+                        child: Stack(children: [
+                          AspectRatio(aspectRatio: 1, child: Image.asset(work.thumbnail[0], fit: BoxFit.cover)),
+                          Positioned(
+                              bottom: 10,
+                              left: 10,
+                              child: Row(children: [
+                                const Icon(
+                                  CupertinoIcons.heart_fill,
+                                  size: 20,
+                                  color: Colors.redAccent,
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  work.likes.toString(),
+                                  style: const TextStyle(fontWeight: FontWeight.w500),
+                                ),
+                              ])),
+                        ]));
                   }),
               SizedBox(height: widgetDistanceLarge),
 
