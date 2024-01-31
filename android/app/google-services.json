@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "663286077131",
+    "project_id": "ams-app-project",
+    "storage_bucket": "ams-app-project.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:663286077131:android:d71dacc51f00259ed8ed4e",
+        "android_client_info": {
+          "package_name": "com.example.ams"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5DxKoVaecMds7QCDYKPasNaHxmfTmGGs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

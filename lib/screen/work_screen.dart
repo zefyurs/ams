@@ -158,7 +158,7 @@ class _WorkPageState extends State<WorkPage> {
                               child: Row(children: [
                                 const Icon(
                                   CupertinoIcons.heart_fill,
-                                  size: 20,
+                                  size: 12,
                                   color: Colors.redAccent,
                                 ),
                                 const SizedBox(width: 5),
