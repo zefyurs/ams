@@ -1,6 +1,7 @@
 import 'package:ams/common/color.dart';
 import 'package:ams/common/consonents.dart';
 import 'package:ams/common/layout.dart';
+import 'package:ams/database/firebase.dart';
 import 'package:ams/model/work_model.dart';
 import 'package:ams/screen/popup_screen.dart';
 import 'package:ams/widget/work_banner.dart';
@@ -44,14 +45,19 @@ class _WorkPageState extends State<WorkPage> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+  }
+
+  Future<List<String>> getCategoryList() async {
+    List<String> categoryList = await fetchCategoryList();
+    return categoryList;
   }
 
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // List<String> categoryName = workList.map((e) => e.category).toSet().toList();
-    List<String> categoryName = ['화장품', '의류'];
+    // List<String> categoryName = ['화장품', '의류'];
+    Future<List<String>> categoryName = getCategoryList();
+    // print(categoryNames);
     return Scaffold(
         backgroundColor: bgColor,
         body: SingleChildScrollView(
@@ -86,57 +92,88 @@ class _WorkPageState extends State<WorkPage> {
                       onChanged: (value) {},
                       decoration: searchInputDecoration(searchController))),
               SizedBox(height: widgetDistanceSmall),
-
-              // * 카테고리 선택
-              SizedBox(
-                  height: 32,
-                  child: Row(
-                    children: [
-                      GestureDetector(
-                          onTap: () {},
-                          // onTap: () => updateWorksList(''),
-                          child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: searchWord == '' ? primaryColor : Colors.grey.shade200,
-                              ),
-                              padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
-                              child: Text(
-                                '전 체',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: searchWord == '' ? Colors.white : Colors.black,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: -0.5,
-                                ),
-                              ))),
-                      Expanded(
-                          child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: categoryName.length,
-                              itemBuilder: (context, index) {
-                                var category = categoryName[index];
-                                return Padding(
-                                    padding: const EdgeInsets.only(left: 8),
-                                    child: GestureDetector(
-                                        // onTap: () => updateWorksList(category),
-                                        onTap: () => {},
-                                        child: Container(
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(15),
-                                                color: searchWord == category ? primaryColor : Colors.grey.shade200),
-                                            padding:
-                                                EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
-                                            child: Text(
-                                              category,
-                                              style: TextStyle(
-                                                  color: searchWord == category ? Colors.white : Colors.black),
-                                            ))));
-                              })),
-                    ],
-                  )),
-              SizedBox(height: widgetDistanceSmall),
+              FutureBuilder<List<String>>(
+                future: fetchCategoryList(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<String> categoryNames = snapshot.data!;
+                    return buildCategoryList(categoryNames);
+                  } else if (snapshot.hasError) {
+                    return Text("Error: ${snapshot.error}");
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('works').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final work = snapshot.data!.docs[index].data() as Map<String, dynamic>;
+                        return Text(work['title']);
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  }
+                  return CircularProgressIndicator();
+                },
+              ),
+              SizedBox(height: widgetDistanceLarge),
+              // // * 카테고리 선택
+              // SizedBox(
+              //     height: 32,
+              //     child: Row(
+              //       children: [
+              //         GestureDetector(
+              //             onTap: () {},
+              //             // onTap: () => updateWorksList(''),
+              //             child: Container(
+              //                 decoration: BoxDecoration(
+              //                   borderRadius: BorderRadius.circular(15),
+              //                   color: searchWord == '' ? primaryColor : Colors.grey.shade200,
+              //                 ),
+              //                 padding: EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
+              //                 child: Text(
+              //                   '전 체',
+              //                   textAlign: TextAlign.center,
+              //                   style: TextStyle(
+              //                     color: searchWord == '' ? Colors.white : Colors.black,
+              //                     fontSize: 14,
+              //                     fontWeight: FontWeight.w400,
+              //                     letterSpacing: -0.5,
+              //                   ),
+              //                 ))),
+              //         Expanded(
+              //             child: ListView.builder(
+              //                 scrollDirection: Axis.horizontal,
+              //                 itemCount: categoryName.length,
+              //                 itemBuilder: (context, index) {
+              //                   var category = categoryName[index];
+              //                   return Padding(
+              //                       padding: const EdgeInsets.only(left: 8),
+              //                       child: GestureDetector(
+              //                           // onTap: () => updateWorksList(category),
+              //                           onTap: () => {},
+              //                           child: Container(
+              //                               decoration: BoxDecoration(
+              //                                   borderRadius: BorderRadius.circular(15),
+              //                                   color: searchWord == category ? primaryColor : Colors.grey.shade200),
+              //                               padding:
+              //                                   EdgeInsets.symmetric(horizontal: containerInnerPadding, vertical: 5),
+              //                               child: Text(
+              //                                 category,
+              //                                 style: TextStyle(
+              //                                     color: searchWord == category ? Colors.white : Colors.black),
+              //                               ))));
+              //                 })),
+              //       ],
+              //     )),
+              // SizedBox(height: widgetDistanceSmall),
               StreamBuilder(
                 stream: FirebaseFirestore.instance.collection('works').snapshots(),
                 builder: (context, snapshot) {
