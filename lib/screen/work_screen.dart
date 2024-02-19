@@ -4,6 +4,7 @@ import 'package:ams/common/layout.dart';
 import 'package:ams/model/work_model.dart';
 import 'package:ams/screen/popup_screen.dart';
 import 'package:ams/widget/work_banner.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -21,24 +22,24 @@ class _WorkPageState extends State<WorkPage> {
   List<WorkModel> searchedWorkList = [];
 
   Future<void> fetchData() async {
-    List<WorkModel> initialWorkList = await List.from(workList);
-    setState(() {
-      searchedWorkList = initialWorkList;
-    });
+    // List<WorkModel> initialWorkList = await List.from(workList);
+    // setState(() {
+    //   searchedWorkList = initialWorkList;
+    // });
   }
 
-  void updateWorksList(String newSearchWord) {
-    setState(() {
-      searchWord = newSearchWord;
-      searchedWorkList = workList
-          .where((element) =>
-              element.category.contains(searchWord) ||
-              element.brandName.contains(searchWord) ||
-              element.title.contains(searchWord) ||
-              element.screenDirection.contains(searchWord))
-          .toList();
-    });
-  }
+  // void updateWorksList(String newSearchWord) {
+  //   setState(() {
+  //     searchWord = newSearchWord;
+  //     searchedWorkList = workList
+  //         .where((element) =>
+  //             element.category.contains(searchWord) ||
+  //             element.brandName.contains(searchWord) ||
+  //             element.title.contains(searchWord))
+  //         // element.screenDirection.contains(searchWord))
+  //         .toList();
+  //   });
+  // }
 
   @override
   void initState() {
@@ -49,8 +50,8 @@ class _WorkPageState extends State<WorkPage> {
   TextEditingController searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    List<String> categoryName = workList.map((e) => e.category).toSet().toList();
-
+    // List<String> categoryName = workList.map((e) => e.category).toSet().toList();
+    List<String> categoryName = ['화장품', '의류'];
     return Scaffold(
         backgroundColor: bgColor,
         body: SingleChildScrollView(
@@ -81,7 +82,8 @@ class _WorkPageState extends State<WorkPage> {
                   height: 45,
                   child: TextField(
                       controller: searchController,
-                      onChanged: (value) => updateWorksList(value),
+                      // onChanged: (value) => updateWorksList(value),
+                      onChanged: (value) {},
                       decoration: searchInputDecoration(searchController))),
               SizedBox(height: widgetDistanceSmall),
 
@@ -91,7 +93,8 @@ class _WorkPageState extends State<WorkPage> {
                   child: Row(
                     children: [
                       GestureDetector(
-                          onTap: () => updateWorksList(''),
+                          onTap: () {},
+                          // onTap: () => updateWorksList(''),
                           child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(15),
@@ -117,7 +120,8 @@ class _WorkPageState extends State<WorkPage> {
                                 return Padding(
                                     padding: const EdgeInsets.only(left: 8),
                                     child: GestureDetector(
-                                        onTap: () => updateWorksList(category),
+                                        // onTap: () => updateWorksList(category),
+                                        onTap: () => {},
                                         child: Container(
                                             decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(15),
@@ -133,42 +137,62 @@ class _WorkPageState extends State<WorkPage> {
                     ],
                   )),
               SizedBox(height: widgetDistanceSmall),
-              GridView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 1,
-                    mainAxisSpacing: 1,
-                  ),
-                  itemCount: searchedWorkList.length,
-                  itemBuilder: (context, index) {
-                    var work = searchedWorkList[index];
-                    return GestureDetector(
-                        onTap: () {
-                          Get.to(
-                            PopupScreen(work: work),
-                          );
-                        },
-                        child: Stack(children: [
-                          AspectRatio(aspectRatio: 1, child: Image.asset(work.thumbnail[0], fit: BoxFit.cover)),
-                          Positioned(
-                              bottom: 10,
-                              left: 10,
-                              child: Row(children: [
-                                const Icon(
-                                  CupertinoIcons.heart_fill,
-                                  size: 12,
-                                  color: Colors.redAccent,
-                                ),
-                                const SizedBox(width: 5),
-                                Text(
-                                  work.likes.toString(),
-                                  style: const TextStyle(fontWeight: FontWeight.w500),
-                                ),
-                              ])),
-                        ]));
-                  }),
+              StreamBuilder(
+                stream: FirebaseFirestore.instance.collection('works').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      itemCount: snapshot.data!.docs.length,
+                      itemBuilder: (context, index) {
+                        final work = snapshot.data!.docs[index];
+                        return Text(work['title']);
+                      },
+                    );
+                  } else if (snapshot.hasError) {
+                    print(snapshot.error);
+                    return Center(child: Text('error: ${snapshot.error}'));
+                  }
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
+              // GridView.builder(
+              //     shrinkWrap: true,
+              //     primary: false,
+              //     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              //       crossAxisCount: 2,
+              //       crossAxisSpacing: 1,
+              //       mainAxisSpacing: 1,
+              //     ),
+              //     itemCount: searchedWorkList.length,
+              //     itemBuilder: (context, index) {
+              //       var work = searchedWorkList[index];
+              //       return GestureDetector(
+              //           onTap: () {
+              //             Get.to(
+              //               PopupScreen(work: work),
+              //             );
+              //           },
+              //           child: Stack(children: [
+              //             // AspectRatio(aspectRatio: 1, child: Image.asset(work.thumbnail[0], fit: BoxFit.cover)),
+              //             Positioned(
+              //                 bottom: 10,
+              //                 left: 10,
+              //                 child: Row(children: [
+              //                   const Icon(
+              //                     CupertinoIcons.heart_fill,
+              //                     size: 12,
+              //                     color: Colors.redAccent,
+              //                   ),
+              //                   const SizedBox(width: 5),
+              //                   Text(
+              //                     work.likes.toString(),
+              //                     style: const TextStyle(fontWeight: FontWeight.w500),
+              //                   ),
+              //                 ])),
+              //           ]));
+              //     }),
               SizedBox(height: widgetDistanceLarge),
 
               // ListView.builder(

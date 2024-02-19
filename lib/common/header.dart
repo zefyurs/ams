@@ -1,7 +1,9 @@
 import 'package:ams/common/color.dart';
 import 'package:ams/common/consonents.dart';
+import 'package:ams/screen/add_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HeaderWidget extends StatelessWidget {
@@ -51,7 +53,9 @@ class HeaderWidget extends StatelessWidget {
 
               Column(
                 children: [
-                  IconButton(onPressed: () {}, icon: const Icon(CupertinoIcons.bars, color: textColor)),
+                  IconButton(
+                      onPressed: () => Get.to(() => const AddPage()),
+                      icon: const Icon(CupertinoIcons.bars, color: textColor)),
                   const SizedBox(height: 6)
                 ],
               )

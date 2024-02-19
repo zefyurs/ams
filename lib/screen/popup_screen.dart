@@ -27,74 +27,74 @@ class _PopupScreenState extends State<PopupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    int thumbnailQty = widget.work.thumbnail.length;
+    // int thumbnailQty = widget.work.thumbnail.length;
 
     return Scaffold(
       appBar: AppBar(),
       body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         // * thumbnail
-        Stack(children: [
-          // * 상단 이미지
-          CarouselSlider.builder(
-              itemBuilder: (context, index, realIndex) {
-                return Stack(alignment: Alignment.center, children: [
-                  Image.asset(widget.work.thumbnail[index], fit: BoxFit.cover),
-                  Container(
-                      decoration: BoxDecoration(
-                          color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
-                          shape: BoxShape.circle),
-                      child: IconButton(
-                          icon: Icon(Icons.play_arrow, size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
-                          onPressed: () {
-                            // 재생 버튼 클릭 시 실행할 액션 추가
-                          })),
-                  Positioned(
-                      top: 10,
-                      right: 10,
-                      child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                          decoration:
-                              BoxDecoration(color: lightGrey.withOpacity(0.3), borderRadius: BorderRadius.circular(15)),
-                          child: Text(widget.work.screenDirection[index]))),
-                  Positioned(
-                      top: 10,
-                      left: 10,
-                      child: Row(children: [
-                        const Icon(
-                          CupertinoIcons.heart_fill,
-                          size: 20,
-                          color: Colors.redAccent,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(
-                          widget.work.likes.toString(),
-                          style: TextStyle(fontWeight: FontWeight.w500),
-                        ),
-                      ])),
-                  if (thumbnailQty > 1)
-                    Positioned(
-                        bottom: 15,
-                        child: SmoothPageIndicator(
-                          controller: pageController,
-                          count: thumbnailQty,
-                          effect: const ExpandingDotsEffect(
-                              dotColor: Colors.grey, activeDotColor: Colors.white, dotHeight: 8, dotWidth: 8),
-                        ))
-                ]);
-              },
-              itemCount: thumbnailQty,
-              carouselController: buttonCarouselController,
-              options: CarouselOptions(
-                  onPageChanged: (index, reason) {
-                    setState(() {
-                      pageController = PageController(initialPage: index);
-                    });
-                  },
-                  aspectRatio: 4 / 3,
-                  initialPage: 0,
-                  viewportFraction: 1,
-                  enableInfiniteScroll: false))
-        ]),
+        // Stack(children: [
+        //   // * 상단 이미지
+        //   CarouselSlider.builder(
+        //       itemBuilder: (context, index, realIndex) {
+        //         return Stack(alignment: Alignment.center, children: [
+        //           Image.asset(widget.work.thumbnail[index], fit: BoxFit.cover),
+        //           Container(
+        //               decoration: BoxDecoration(
+        //                   color: Colors.black38.withOpacity(0.5), // 버튼 배경 투명도 조절
+        //                   shape: BoxShape.circle),
+        //               child: IconButton(
+        //                   icon: Icon(Icons.play_arrow, size: 40, color: Colors.white.withOpacity(0.9)), // 아이콘 투명도 조절
+        //                   onPressed: () {
+        //                     // 재생 버튼 클릭 시 실행할 액션 추가
+        //                   })),
+        //           Positioned(
+        //               top: 10,
+        //               right: 10,
+        //               child: Container(
+        //                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+        //                   decoration:
+        //                       BoxDecoration(color: lightGrey.withOpacity(0.3), borderRadius: BorderRadius.circular(15)),
+        //                   child: Text(widget.work.screenDirection[index]))),
+        //           Positioned(
+        //               top: 10,
+        //               left: 10,
+        //               child: Row(children: [
+        //                 const Icon(
+        //                   CupertinoIcons.heart_fill,
+        //                   size: 20,
+        //                   color: Colors.redAccent,
+        //                 ),
+        //                 const SizedBox(width: 5),
+        //                 Text(
+        //                   widget.work.likes.toString(),
+        //                   style: TextStyle(fontWeight: FontWeight.w500),
+        //                 ),
+        //               ])),
+        //           if (thumbnailQty > 1)
+        //             Positioned(
+        //                 bottom: 15,
+        //                 child: SmoothPageIndicator(
+        //                   controller: pageController,
+        //                   count: thumbnailQty,
+        //                   effect: const ExpandingDotsEffect(
+        //                       dotColor: Colors.grey, activeDotColor: Colors.white, dotHeight: 8, dotWidth: 8),
+        //                 ))
+        //         ]);
+        //       },
+        //       itemCount: thumbnailQty,
+        //       carouselController: buttonCarouselController,
+        //       options: CarouselOptions(
+        //           onPageChanged: (index, reason) {
+        //             setState(() {
+        //               pageController = PageController(initialPage: index);
+        //             });
+        //           },
+        //           aspectRatio: 4 / 3,
+        //           initialPage: 0,
+        //           viewportFraction: 1,
+        //           enableInfiniteScroll: false))
+        // ]),
 
         Padding(
           padding: containerHeaderPadding,
@@ -120,7 +120,7 @@ class _PopupScreenState extends State<PopupScreen> {
                 const SizedBox(width: 5),
                 IconButton(
                     onPressed: () {
-                      Clipboard.setData(ClipboardData(text: widget.work.url[0]));
+                      // Clipboard.setData(ClipboardData(text: widget.work.url[0]));
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text('URL이 클립보드에 복사되었습니다!'),
